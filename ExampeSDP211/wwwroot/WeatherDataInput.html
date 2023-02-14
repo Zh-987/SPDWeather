@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Weather</title>
+</head>
+<body>
+    <input type="hidden" name="weatherId" />
+
+    <input name="weatherTemperatureC" />
+    <input name="weatherSummary" />
+    
+    
+    <button id="saveBtn">Save</button>
+    <button id="resetBtn">Reset</button>
+
+    <table>
+        <thead>
+            <tr><th>id</th> <th>Date</th> <th>TemperatureC</th> <th>TemperatureF</th> <th>Summary</th></tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        async function GetWeather() {
+            const response = await fetch("/api/WeatherForecasts/", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+            if (response.ok === true) {
+                const weathers = await response.json();
+                const rows = document.querySelector("tbody");
+
+                weathers.forEach(weather => rows.append(row(weather)));
+            }
+        }
+
+        async function GetWeather(id) {
+            const response = await fetch("/api/WeatherForecasts/${id}", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+
+            if (response.ok === true) {
+                const weathers = await response.json();
+                document.getElementById("weatherId").value = weathers.Id;
+                document.getElementById("weatherDate").value = weathers.Date;
+                document.getElementById("weatherTempC").value = weathers.TemperatureC;
+                document.getElementById("weatherTempF").value = weathers.TemperatureF;
+                document.getElementById("weatherSummary").value = weathers.Summary;
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+                
+        }
+
+        async function createWeatherFor(weatherTempC, weatherSum) {
+            const response = await fetch("/api/WeatherForecasts/${id}", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json", "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    weatherTemperatureC: weatherTempC,
+                    weatherSummary: weatherSum
+                })
+            });
+            if (response.ok === true) 
+            {
+                const weather = await response.json();
+                document.querySelector("tbody").append(row(weather))
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+        document.getElementById("saveBtn").addEventListener("click", async () => {
+            const id = document.getElementById("weatherId").value;
+            const weatherTempC = document.getElementById("weatherTemperatureC").value;
+            const weatherSum = document.getElementById("weatherSummary").value;
+
+            await createWeatherFor(weatherTempC, weatherSum);
+
+        });
+
+        GetWeather();
+
+    </script>
+</body>
+</html>
