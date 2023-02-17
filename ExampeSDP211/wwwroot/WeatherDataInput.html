@@ -5,26 +5,26 @@
     <title>Weather</title>
 </head>
 <body>
-    <input type="hidden" name="weatherId" />
+    <input type="hidden" id ="weatherId" />
 
-    <input name="weatherTemperatureC" />
-    <input name="weatherSummary" />
-    
-    
+    <input id="weatherTemperatureC" />
+    <input id="weatherSummary" />
+
     <button id="saveBtn">Save</button>
     <button id="resetBtn">Reset</button>
 
     <table>
         <thead>
-            <tr><th>id</th> <th>Date</th> <th>TemperatureC</th> <th>TemperatureF</th> <th>Summary</th></tr>
+            <tr> <th>Date</th> <th>TemperatureC</th> <th>TemperatureF</th> <th>Summary</th> <th></th> </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
 
     <script>
-        async function GetWeather() {
-            const response = await fetch("/api/WeatherForecasts/", {
+        
+        async function GetWeathers() {
+            const response = await fetch("/api/WeatherForecasts", {
                 method: "GET",
                 headers: {
                     "Accept": "application/json"
@@ -39,7 +39,7 @@
         }
 
         async function GetWeather(id) {
-            const response = await fetch("/api/WeatherForecasts/${id}", {
+            const response = await fetch(`/api/WeatherForecasts/${id}`, {
                 method: "GET",
                 headers: {
                     "Accept": "application/json"
@@ -48,11 +48,11 @@
 
             if (response.ok === true) {
                 const weathers = await response.json();
-                document.getElementById("weatherId").value = weathers.Id;
-                document.getElementById("weatherDate").value = weathers.Date;
-                document.getElementById("weatherTempC").value = weathers.TemperatureC;
-                document.getElementById("weatherTempF").value = weathers.TemperatureF;
-                document.getElementById("weatherSummary").value = weathers.Summary;
+                document.getElementById("weatherId").value = weathers.id;
+                document.getElementById("weatherDate").value = weathers.date;
+                document.getElementById("weatherTemperatureC").value = weathers.temperatureC;
+                document.getElementById("weatherTempF").value = weathers.temperatureF;
+                document.getElementById("weatherSummary").value = weathers.summary;
             }
             else {
                 const error = await response.json();
@@ -61,15 +61,15 @@
                 
         }
 
-        async function createWeatherFor(weatherTempC, weatherSum) {
-            const response = await fetch("/api/WeatherForecasts/${id}", {
+        async function createWeatherFor( weatherTempC, weatherSum) {
+            const response = await fetch("/api/WeatherForecasts", {
                 method: "POST",
                 headers: {
                     "Accept": "application/json", "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    weatherTemperatureC: weatherTempC,
-                    weatherSummary: weatherSum
+                    temperatureC: parseInt(weatherTempC,10),
+                    summary: weatherSum
                 })
             });
             if (response.ok === true) 
@@ -83,16 +83,107 @@
             }
         }
 
+        async function editWeatherFor(weatherId, weatherTemperatureC, weatherSummary) {
+            const response = await fetch("/api/WeatherForecasts", {
+                method: "PUT",
+                headers: {
+                    "Accept": "application/json", "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: weatherId,
+                    TemperatureC: weatherTemperatureC,
+                    Summary: weatherSummary
+                })
+            });
+
+            if (response.ok === true) {
+                const weather = await response.json();
+                document.querySelector(`tr[data-rowid='${weather.id}']`).replaceWith(row(weather));
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+        async function DeleteWeather(id) {
+            const response = await fetch(`/api/WeatherForecasts/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+
+            if (response.ok === true) {
+                const weather = await response.json();
+                document.querySelector(`tr[data-rowid='${weather.id}']`).remove();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+        function reset() {
+            document.getElementById("weatherId").value = "";
+            document.getElementById("weatherTemperatureC").value = "";
+            document.getElementById("weatherSummary").value = "";
+        }
+
+        function row(weather) {
+
+            const tr = document.createElement("tr");
+
+            tr.setAttribute("data-rowid", weather.id);
+
+            const weatherDatetd = document.createElement("td");
+            weatherDatetd.append(weather.date);
+            tr.append(weatherDatetd);
+
+            const TempCtd = document.createElement("td");
+            TempCtd.append(weather.temperatureC);
+            tr.append(TempCtd);
+
+
+            const TempFtd = document.createElement("td");
+            TempFtd.append(weather.temperatureF);
+            tr.append(TempFtd);
+
+            const weatherSummarytd = document.createElement("td");
+            weatherSummarytd.append(weather.summary);
+            tr.append(weatherSummarytd);
+
+            const linksTd = document.createElement("td");
+
+            const editLink = document.createElement("button");
+            editLink.append("Edit");
+            editLink.addEventListener("click", async() => await GetWeather(weather.id));
+            linksTd.append(editLink);
+
+            const removeLink = document.createElement("button");
+            removeLink.append("Remove");
+            removeLink.addEventListener("click", async () => await DeleteWeather(weather.id));
+            linksTd.append(removeLink);
+
+            tr.appendChild(linksTd);
+
+            return tr;
+        }
+
         document.getElementById("saveBtn").addEventListener("click", async () => {
             const id = document.getElementById("weatherId").value;
-            const weatherTempC = document.getElementById("weatherTemperatureC").value;
-            const weatherSum = document.getElementById("weatherSummary").value;
-
-            await createWeatherFor(weatherTempC, weatherSum);
-
+            const temperatureC = document.getElementById("weatherTemperatureC").value;
+            const summary = document.getElementById("weatherSummary").value;
+            if (id === "") {
+                await createWeatherFor(temperatureC, summary);
+            }
+            else {
+                await editWeatherFor(id, temperatureC, summary);
+            }
+            reset();
         });
 
-        GetWeather();
+        GetWeathers();
 
     </script>
 </body>

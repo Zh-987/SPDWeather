@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vvZMS0dYgRnimI+HOTkydAKUGy2rpSQZnkUNCLb/11MWsQ0AbusypcjiZ+I0Pbi3eN15rxjS7w733sDQ/G6mrQ==",
+  "dgSpecHash": "7qeM0WNLKULinhV3vOkWK5K3nLFOPMgzYNxsTQIl675potmnDvruQKwuFKfl+Aoe+8HUaDzyh3vxX1vW50IaWg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\assai\\Source\\Repos\\SPDWeather\\ExampeSDP211\\ExampeSDP211.csproj",
+  "projectFilePath": "C:\\Users\\assai\\source\\repos\\ExampeSDP211\\ExampeSDP211\\ExampeSDP211.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

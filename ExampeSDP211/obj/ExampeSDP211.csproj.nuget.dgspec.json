@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\assai\\Source\\Repos\\SPDWeather\\ExampeSDP211\\ExampeSDP211.csproj": {}
+    "C:\\Users\\assai\\source\\repos\\ExampeSDP211\\ExampeSDP211\\ExampeSDP211.csproj": {}
   },
   "projects": {
-    "C:\\Users\\assai\\Source\\Repos\\SPDWeather\\ExampeSDP211\\ExampeSDP211.csproj": {
+    "C:\\Users\\assai\\source\\repos\\ExampeSDP211\\ExampeSDP211\\ExampeSDP211.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\assai\\Source\\Repos\\SPDWeather\\ExampeSDP211\\ExampeSDP211.csproj",
+        "projectUniqueName": "C:\\Users\\assai\\source\\repos\\ExampeSDP211\\ExampeSDP211\\ExampeSDP211.csproj",
         "projectName": "ExampeSDP211",
-        "projectPath": "C:\\Users\\assai\\Source\\Repos\\SPDWeather\\ExampeSDP211\\ExampeSDP211.csproj",
+        "projectPath": "C:\\Users\\assai\\source\\repos\\ExampeSDP211\\ExampeSDP211\\ExampeSDP211.csproj",
         "packagesPath": "C:\\Users\\assai\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\assai\\Source\\Repos\\SPDWeather\\ExampeSDP211\\obj\\",
+        "outputPath": "C:\\Users\\assai\\source\\repos\\ExampeSDP211\\ExampeSDP211\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -27,7 +27,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
